@@ -2,6 +2,7 @@ package ru.geekbrains.server.persistance;
 
 import ru.geekbrains.server.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,8 @@ public class UserRepository {
 
     private final Connection conn;
 
-    public UserRepository(Connection conn) throws SQLException {
-        this.conn = conn;
+    public UserRepository(DataSource dataSource) throws SQLException {
+        this.conn = dataSource.getConnection();
         createTableIfNotExists(conn);
     }
 
