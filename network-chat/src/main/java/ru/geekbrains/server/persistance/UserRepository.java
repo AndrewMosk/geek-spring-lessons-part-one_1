@@ -10,9 +10,8 @@ public class UserRepository {
 
     private final Connection conn;
 
-    public UserRepository() throws SQLException {
-        this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/network_chat",
-                "root", "root");
+    public UserRepository(Connection conn) throws SQLException {
+        this.conn = conn;
         createTableIfNotExists(conn);
     }
 
