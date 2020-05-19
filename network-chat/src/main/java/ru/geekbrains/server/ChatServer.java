@@ -1,5 +1,6 @@
 package ru.geekbrains.server;
 
+import org.springframework.stereotype.Component;
 import ru.geekbrains.client.AuthException;
 import ru.geekbrains.client.TextMessage;
 import ru.geekbrains.server.auth.AuthService;
@@ -19,6 +20,7 @@ import java.util.*;
 import static ru.geekbrains.client.MessagePatterns.AUTH_FAIL_RESPONSE;
 import static ru.geekbrains.client.MessagePatterns.AUTH_SUCCESS_RESPONSE;
 
+@Component
 public class ChatServer {
 
     private AuthService authService;
