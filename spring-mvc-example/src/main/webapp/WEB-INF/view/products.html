@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!-- Required meta tags -->
@@ -42,7 +42,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" href="/product">Add Product</a>
+            <a class="btn btn-primary" th:href="@{/product/new}">Add Product</a>
         </div>
 
         <div class="col-12">
@@ -50,21 +50,19 @@
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Cost</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr hidden>
-                    <td class="text-center" colspan="5">No data</td>
+                    <td class="text-center" colspan="4">No data</td>
                 </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Macbook pro 2015</td>
-                    <td>Apple laptop</td>
-                    <td>$2000</td>
+                <tr th:each="product : ${products}">
+                    <th scope="row" th:text = "${product.id}">1</th>
+                    <td th:text="${product.title}">Macbook pro 2015</td>
+                    <td th:text="${product.cost}">$2000</td>
                     <td>
                         <a class="btn btn-success" href="#"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
