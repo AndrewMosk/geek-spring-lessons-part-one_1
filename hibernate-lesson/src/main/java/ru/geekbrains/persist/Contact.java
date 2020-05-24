@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "contacts")
+@NamedQuery(name = "withUserName", query = "select c.id, c.type, c.contact, u.name from Contact c inner join c.user u where c.id = :id")
 public class Contact {
 
     @Id
