@@ -1,9 +1,11 @@
 package ru.geekbrains.persist;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@NamedQuery(name = "getByName", query = "from User u where u.name = :name")
 public class User {
 
     @Id
@@ -15,6 +17,12 @@ public class User {
 
     @Column(length = 64)
     private String password;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL
+    )
+    private List<Contact> contacts;
 
     public User() {
     }
@@ -49,12 +57,21 @@ public class User {
         this.password = password;
     }
 
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
+                ", contacts=" + contacts +
                 '}';
     }
 }
