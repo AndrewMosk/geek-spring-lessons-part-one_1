@@ -16,8 +16,8 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.jdbc.batch_size">10</property>
 
-        <mapping class="ru.geekbrains.lesson.persist.User"/>
-        <mapping class="ru.geekbrains.lesson.persist.Contact"/>
+        <mapping class="ru.geekbrains.homework.persist.Customer"/>
+        <mapping class="ru.geekbrains.homework.persist.Product"/>
 
     </session-factory>
 </hibernate-configuration>
