@@ -1,4 +1,4 @@
-package ru.geekbrains.persist;
+package ru.geekbrains.lesson.persist;
 
 import javax.persistence.*;
 import java.util.List;
