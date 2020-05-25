@@ -15,17 +15,19 @@ public class Customer {
     @Column(length = 256, unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(
-            mappedBy = "customer", // ?
-            cascade = CascadeType.ALL
+    @ManyToMany
+    @JoinTable(
+            name = "product_carts",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> products;
 
     public Customer() {
     }
 
-    public Customer(Long id, String name) {
-        this.id = id;
+    public Customer(String name) {
+        //this.id = id;
         this.name = name;
     }
 

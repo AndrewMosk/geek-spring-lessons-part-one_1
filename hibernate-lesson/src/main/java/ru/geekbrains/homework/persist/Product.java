@@ -17,17 +17,20 @@ public class Product {
     @Column(length = 64)
     private double cost;
 
-    @ManyToMany(
-            mappedBy = "product", // ?
-            cascade = CascadeType.ALL
+    @ManyToMany
+    @JoinTable(
+            name = "product_carts",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
+
     private List<Customer> customers;
 
     public Product() {
     }
 
-    public Product(Long id, String name, double cost) {
-        this.id = id;
+    public Product(String name, double cost) {
+        //this.id = id;
         this.name = name;
         this.cost = cost;
     }
@@ -66,10 +69,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", cost='" + cost + '\'' +
+                ", cost=" + cost +
                 ", customers=" + customers +
                 '}';
     }

@@ -18,6 +18,7 @@
 
         <mapping class="ru.geekbrains.homework.persist.Customer"/>
         <mapping class="ru.geekbrains.homework.persist.Product"/>
+        <mapping class="ru.geekbrains.homework.persist.ProductCart"/>
 
     </session-factory>
 </hibernate-configuration>
