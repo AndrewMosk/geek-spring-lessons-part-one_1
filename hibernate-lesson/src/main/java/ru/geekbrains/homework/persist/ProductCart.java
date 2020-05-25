@@ -11,14 +11,9 @@ public class ProductCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(nullable = false)
-//    private Long customer_id;
-
-    //@ManyToOne
     @Column
     private Long customer_id;
 
-    //@ManyToOne
     @Column
     private Long product_id;
 

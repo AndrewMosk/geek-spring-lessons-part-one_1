@@ -5,7 +5,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
-//@NamedQuery(name = "getByName", query = "from User u where u.name = :name")
 public class Customer {
 
     @Id
@@ -27,7 +26,6 @@ public class Customer {
     }
 
     public Customer(String name) {
-        //this.id = id;
         this.name = name;
     }
 
