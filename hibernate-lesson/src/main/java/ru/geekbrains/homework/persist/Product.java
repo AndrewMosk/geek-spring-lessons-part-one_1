@@ -5,6 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
+@NamedQuery(name = "getProductsByCustomer", query = "select p.name, p.cost, u.name from Product p inner join c.user u where c.id = :id")
 public class Product {
 
     @Id

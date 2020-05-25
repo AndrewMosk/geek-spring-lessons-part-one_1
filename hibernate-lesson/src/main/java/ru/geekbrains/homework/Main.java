@@ -4,9 +4,11 @@ import org.hibernate.cfg.Configuration;
 import ru.geekbrains.homework.persist.Customer;
 import ru.geekbrains.homework.persist.Product;
 import ru.geekbrains.homework.persist.ProductCart;
+import ru.geekbrains.lesson.persist.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,10 +42,10 @@ public class Main {
 
         // INSERT cart
 //        EntityManager em = emFactory.createEntityManager();
-//        ProductCart productCart = new ProductCart(1L, 1L);
-//        ProductCart productCart1 = new ProductCart(1L, 2L);
-//        ProductCart productCart2 = new ProductCart(2L, 2L);
-//        ProductCart productCart3 = new ProductCart(2L, 3L);
+//        ProductCart productCart = new ProductCart(4L, 1L);
+//        ProductCart productCart1 = new ProductCart(4L, 2L);
+//        ProductCart productCart2 = new ProductCart(6L, 2L);
+//        ProductCart productCart3 = new ProductCart(6L, 3L);
 //
 //        em.getTransaction().begin();
 //        em.persist(productCart);
@@ -59,5 +61,15 @@ public class Main {
 //        em.getTransaction().begin();
 //        em.remove(user);
 //        em.getTransaction().commit();
+
+
+        // SELECT products by customer
+        EntityManager em = emFactory.createEntityManager();
+
+        //List<User> users = em.createQuery("from User u where u.name = :name", User.class)
+        List<Product> products  = em.createNamedQuery("getProductsByCustomer", Product.class)
+                .setParameter("name", "ivan")
+                .getResultList();
+        users.forEach(System.out::println);
     }
 }
