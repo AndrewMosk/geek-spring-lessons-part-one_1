@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-@NamedQuery(name = "getProductsByCustomer", query = "select p.name, p.cost, u.name from Product p inner join c.user u where c.id = :id")
+@NamedQuery(name = "getProductsByCustomer", query = "select p.name, p.cost, c.name from Product p inner join p.customer c where c.id = :id")
 public class Product {
 
     @Id
@@ -24,7 +24,6 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
-
     private List<Customer> customers;
 
     public Product() {

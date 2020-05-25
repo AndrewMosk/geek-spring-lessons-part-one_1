@@ -67,9 +67,9 @@ public class Main {
         EntityManager em = emFactory.createEntityManager();
 
         //List<User> users = em.createQuery("from User u where u.name = :name", User.class)
-        List<Product> products  = em.createNamedQuery("getProductsByCustomer", Product.class)
-                .setParameter("name", "ivan")
+        List<Product> products  = em.createNamedQuery("getProductsByCustomer")
+                .setParameter("id", 4L)
                 .getResultList();
-        users.forEach(System.out::println);
+        products.forEach(System.out::println);
     }
 }
