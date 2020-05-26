@@ -1,37 +1,28 @@
 package ru.geekbrains.persist.repo;
 
 import org.springframework.stereotype.Repository;
-import ru.geekbrains.persist.enity.User;
+import ru.geekbrains.persist.entity.User;
 
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class UserRepository {
 
-    private final AtomicLong identityGen;
+    @PersistenceContext
+    private EntityManager em;
 
-    private final Map<Long, User> users;
-
-    public UserRepository() {
-        this.identityGen = new AtomicLong(0);
-        this.users = new ConcurrentHashMap<>();
-    }
-
+    // выборка всех пользователей. на сколько я понимаю, если понадобится еще какая-то, нужно будет добавить метод с новым запросом
     public List<User> findAll() {
-        return new ArrayList<>(users.values());
+        return em.createQuery("from User", User.class).getResultList();
     }
 
     public void save(User user) {
-        long id = identityGen.incrementAndGet();
-        user.setId(id);
-        users.put(id, user);
+        em.persist(user);
     }
 
     public User findById(long id) {
-        return users.get(id);
+        return em.find(User.class, id);
     }
 }
