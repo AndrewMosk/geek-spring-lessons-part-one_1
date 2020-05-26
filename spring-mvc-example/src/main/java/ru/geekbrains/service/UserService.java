@@ -7,11 +7,12 @@ import ru.geekbrains.persist.entity.User;
 import ru.geekbrains.persist.repo.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private UserRepository repository;
+    private final UserRepository repository;
 
     @Autowired
     public UserService(UserRepository repository) {
@@ -29,7 +30,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User findById(long id) {
+    public Optional<User> findById(long id) {
         return repository.findById(id);
     }
 }
