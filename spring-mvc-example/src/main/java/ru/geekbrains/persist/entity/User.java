@@ -16,6 +16,9 @@ public class User {
     @Column(length = 32)
     private String password;
 
+    @Column
+    private Integer age;
+
     public User() {
     }
 
@@ -47,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }
