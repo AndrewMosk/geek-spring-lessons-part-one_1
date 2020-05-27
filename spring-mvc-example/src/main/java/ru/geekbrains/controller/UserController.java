@@ -26,7 +26,10 @@ public class UserController {
     }
 
     @GetMapping
-    public String userList(Model model, @RequestParam("minAge") Integer minAge, @RequestParam("maxAge") Integer maxAge) {
+    public String userList(Model model,
+                           @RequestParam(name = "minAge",required = false, defaultValue = "0") Integer minAge,
+                           @RequestParam(name = "maxAge",required = false, defaultValue = "0") Integer maxAge) {
+
         logger.info("User list. With minAge = {} and maxAge = {}", minAge, maxAge);
 
         model.addAttribute("users", userService.filterByAge(minAge, maxAge));
