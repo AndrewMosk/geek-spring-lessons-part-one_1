@@ -24,6 +24,18 @@ public class UserService {
         return repository.findAll();
     }
 
+    public List<User> filterByAge(Integer minAge, Integer maxAge) {
+        if (minAge != 0 & maxAge == 0) {
+            return repository.findByAgeGreaterThan(minAge);
+        } else if (minAge == 0 & maxAge != 0) {
+            return repository.findByAgeLessThan(maxAge);
+        } else if (minAge != 0 & maxAge != 0) {
+            return repository.findByAgeBetween(minAge, maxAge);
+        }
+
+        return repository.findAll();
+    }
+
     @Transactional
     public void save(User user) {
         repository.save(user);

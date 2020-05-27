@@ -107,6 +107,9 @@
                     <configuration>
                         <type>existing</type>
                         <home>F:/User/Andrew/Downloads/apache-tomcat-9.0.35-windows-x64/apache-tomcat-9.0.35/</home>
+                        <properties>
+                            <cargo.servlet.port>8081</cargo.servlet.port>
+                        </properties>
                     </configuration>
                 </configuration>
             </plugin>
