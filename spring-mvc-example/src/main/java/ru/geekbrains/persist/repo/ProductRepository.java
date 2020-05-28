@@ -1,36 +1,26 @@
 package ru.geekbrains.persist.repo;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.geekbrains.persist.enity.Product;
+import ru.geekbrains.persist.entity.Product;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
-public class ProductRepository {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    private final AtomicLong identityGen;
-    private final Map<Long, Product> products;
+    Product findByTitle(String name);
 
-    public ProductRepository() {
-        this.identityGen = new AtomicLong();
-        this.products = new ConcurrentHashMap<>();
-    }
+    @Query(value = "SELECT * FROM Products p ORDER BY p.cost ASC LIMIT 1",
+            nativeQuery = true)
+    List<Product> findByMinPrice();
 
-    public List<Product> findAll() {
-        return new ArrayList<>(products.values());
-    }
+    @Query(value = "SELECT * FROM Products p ORDER BY p.cost DESC LIMIT 1",
+            nativeQuery = true)
+    List<Product> findByMaxPrice();
 
-    public void save(Product product) {
-        long id = identityGen.incrementAndGet();
-        product.setId(id);
-        products.put(id, product);
-    }
-
-    public Product findById(long id) {
-        return products.get(id);
-    }
+    @Query(value = "(SELECT * FROM Products p ORDER BY p.cost ASC LIMIT 1) UNION (SELECT * FROM Products p ORDER BY p.cost DESC LIMIT 1)",
+            nativeQuery = true)
+    List<Product> findByMinAndMaxPrice();
 }
