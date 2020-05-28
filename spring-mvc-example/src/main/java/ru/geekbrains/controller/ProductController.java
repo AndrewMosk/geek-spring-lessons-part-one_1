@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.geekbrains.persist.entity.Product;
 import ru.geekbrains.service.ProductService;
 
@@ -25,9 +26,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public String  productList(Model model) {
+    public String  productList(Model model,
+                               @RequestParam(name = "minPrice",required = false, defaultValue = "false") Boolean minPrice,
+                               @RequestParam(name = "maxPrice",required = false, defaultValue = "false") Boolean maxPrice) {
         logger.info("product list");
-        model.addAttribute("products", productService.findAll());
+
+
+        model.addAttribute("products", productService.filterByPrice(minPrice, maxPrice));
         return "products";
     }
 

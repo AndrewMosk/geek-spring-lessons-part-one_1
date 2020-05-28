@@ -24,6 +24,18 @@ public class ProductService {
         return repository.findAll();
     }
 
+    public List<Product> filterByPrice(Boolean minPrice, Boolean maxPrice) {
+        if (minPrice & maxPrice) {
+            return repository.findByMinAndMaxPrice();
+        } else if (minPrice) {
+            return repository.findByMinPrice();
+        } else if (maxPrice) {
+            return repository.findByMaxPrice();
+        }
+
+        return repository.findAll();
+    }
+
     @Transactional
     public void save(Product product) {
         repository.save(product);

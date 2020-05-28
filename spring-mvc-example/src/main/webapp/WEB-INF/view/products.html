@@ -45,6 +45,18 @@
             <a class="btn btn-primary" th:href="@{/product/new}">Add Product</a>
         </div>
 
+        <div class="col-12 mt-3">
+            <form>
+                <label for="minPrice">Min price</label>
+                <input type="checkbox" name="minPrice" id="minPrice">
+
+                <label for="maxPrice">Max price</label>
+                <input type="checkbox" name="maxPrice" id="maxPrice">
+
+                <button class="btn btn-primary" type="submit">Filter</button>
+            </form>
+        </div>
+
         <div class="col-12">
             <table class="table table-bordered my-2">
                 <thead>
