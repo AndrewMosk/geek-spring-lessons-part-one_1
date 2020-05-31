@@ -3,6 +3,7 @@ package ru.geekbrains.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,14 +31,19 @@ public class UserController {
     public String userList(Model model,
                            @RequestParam(name = "minAge", required = false, defaultValue = "0") Integer minAge,
                            @RequestParam(name = "maxAge", required = false, defaultValue = "0") Integer maxAge,
-                           @RequestParam (name = "page", required = false, defaultValue = "1") Integer page, // еще однин вариант использования параметра без опции required = false
-                           @RequestParam (name = "size", required = false, defaultValue = "5") Integer size) {
+                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page, // еще однин вариант использования параметра без опции required = false
+                           @RequestParam(name = "size", required = false, defaultValue = "5") Integer size) {
 
         logger.info("User list. With minAge = {} and maxAge = {}", minAge, maxAge);
 
-        model.addAttribute("usersPage", userService.filterByAge(minAge, maxAge, PageRequest.of(page-1, size))); // page.orElse(1)-1 почему-то -1!?
+        Page<User> userPage = userService.filterByAge(minAge, maxAge, PageRequest.of(page - 1, size)); // page.orElse(1)-1 почему-то -1!?
+
+        model.addAttribute("usersPage", userPage);
         model.addAttribute("minAge", minAge);
         model.addAttribute("maxAge", maxAge);
+        model.addAttribute("prevPageNumber", userPage.hasPrevious() ? userPage.previousPageable().getPageNumber() + 1 : -1);
+        model.addAttribute("nextPageNumber", userPage.hasNext() ? userPage.nextPageable().getPageNumber() + 1 : -1);
+
         return "users";
     }
 

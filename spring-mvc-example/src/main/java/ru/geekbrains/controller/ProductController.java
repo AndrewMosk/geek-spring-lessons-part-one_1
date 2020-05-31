@@ -3,6 +3,7 @@ package ru.geekbrains.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,10 +35,13 @@ public class ProductController {
                                @RequestParam (name = "size", required = false, defaultValue = "5") Integer size) {
         logger.info("product list");
 
+        Page<Product> productPage = productService.filterByPrice(minPrice, maxPrice, PageRequest.of(page-1, size));
 
-        model.addAttribute("productsPage", productService.filterByPrice(minPrice, maxPrice, PageRequest.of(page-1, size)));
+        model.addAttribute("productsPage", productPage);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("prevPageNumber", productPage.hasPrevious() ? productPage.previousPageable().getPageNumber() + 1 : -1);
+        model.addAttribute("nextPageNumber", productPage.hasNext() ? productPage.nextPageable().getPageNumber() + 1 : -1);
         return "products";
     }
 
