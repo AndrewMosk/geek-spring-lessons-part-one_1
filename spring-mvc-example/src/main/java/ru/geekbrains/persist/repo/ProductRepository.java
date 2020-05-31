@@ -13,11 +13,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findByTitle(String name);
 
-    @Query(value = "SELECT * FROM Products p ORDER BY p.cost ASC LIMIT 1",
+    @Query(value = "SELECT * FROM Products WHERE cost = (SELECT MIN(cost) FROM Products)",
             nativeQuery = true)
     Page<Product> findByMinPrice(Pageable pageable);
 
-    @Query(value = "SELECT * FROM Products p ORDER BY p.cost DESC LIMIT 1",
+    @Query(value = "SELECT * FROM Products WHERE cost = (SELECT MAX(cost) FROM Products)",
             nativeQuery = true)
     Page<Product> findByMaxPrice(Pageable pageable);
 

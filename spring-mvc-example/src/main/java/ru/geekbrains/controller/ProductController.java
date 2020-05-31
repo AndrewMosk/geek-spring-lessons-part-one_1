@@ -35,7 +35,7 @@ public class ProductController {
         logger.info("product list");
 
 
-        model.addAttribute("productsPage", productService.filterByPrice(minPrice, maxPrice, PageRequest.of(page, size)));
+        model.addAttribute("productsPage", productService.filterByPrice(minPrice, maxPrice, PageRequest.of(page-1, size)));
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
         return "products";
