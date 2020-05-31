@@ -67,10 +67,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr hidden>
+                <tr th:unless="${usersPage.hasContent()}">
                     <td class="text-center" colspan="5">No data</td>
                 </tr>
-                <tr  th:each="user : ${users}">
+                <tr th:if="${usersPage.hasContent()}"  th:each="user : ${usersPage.content}">
                     <th scope="row" th:text = "${user.id}">1</th>
                     <td th:text = "${user.name}">Alex</td>
                     <td th:text = "${user.age}">18</td>
@@ -82,6 +82,28 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="col-12" th:if="${usersPage.hasContent()}">
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+
+                <li th:each="num: ${#numbers.sequence(1, usersPage.totalPages)}"
+                    th:classappend="${num == usersPage.number + 1} ? 'active'"
+                    class="page-item">
+
+                    <a class="page-link"
+                       th:text="${num}"
+                       th:href="@{/user(page=${num}, size=${usersPage.size}, minAge=${minAge}, maxAge=${maxAge})}">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 

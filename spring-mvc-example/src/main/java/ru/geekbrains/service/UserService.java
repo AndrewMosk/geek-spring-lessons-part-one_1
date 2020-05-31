@@ -1,6 +1,8 @@
 package ru.geekbrains.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.persist.entity.User;
@@ -24,16 +26,16 @@ public class UserService {
         return repository.findAll();
     }
 
-    public List<User> filterByAge(Integer minAge, Integer maxAge) {
+    public Page<User> filterByAge(Integer minAge, Integer maxAge, Pageable pageable) {
         if (minAge != 0 & maxAge == 0) {
-            return repository.findByAgeGreaterThan(minAge);
+            return repository.findByAgeGreaterThanEqual(minAge, pageable);
         } else if (minAge == 0 & maxAge != 0) {
-            return repository.findByAgeLessThan(maxAge);
+            return repository.findByAgeLessThanEqual(maxAge, pageable);
         } else if (minAge != 0 & maxAge != 0) {
-            return repository.findByAgeBetween(minAge, maxAge);
+            return repository.findByAgeBetween(minAge, maxAge, pageable);
         }
 
-        return repository.findAll();
+        return repository.findAll(pageable);
     }
 
     @Transactional
