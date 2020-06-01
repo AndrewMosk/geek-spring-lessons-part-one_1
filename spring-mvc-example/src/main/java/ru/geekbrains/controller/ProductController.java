@@ -8,10 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.persist.entity.Product;
 import ru.geekbrains.service.ProductService;
 
@@ -56,6 +53,24 @@ public class ProductController {
         logger.info("create list");
         model.addAttribute("product", new Product());
         return "product";
+    }
+
+    @GetMapping("edit/{id}")
+    public String editProduct(@PathVariable("id") Integer productId, Model model) {
+        logger.info("edit item");
+        model.addAttribute("product", productService.findById(productId));
+
+        return "product";
+    }
+
+    @GetMapping("delete/{id}")
+    public String deleteProduct(@PathVariable("id") Integer productId, Model model) {
+        logger.info("delete item");
+        //model.addAttribute("product", productService.findById(productId));
+        //Page<Product> productPage = productService.deleteById(productId,PageRequest.of(page-1, size))
+        productService.deleteById(productId);
+
+        return "redirect:/product";
     }
 
     @PostMapping

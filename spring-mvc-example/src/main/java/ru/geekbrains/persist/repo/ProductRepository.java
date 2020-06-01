@@ -15,6 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findByTitle(String name);
 
+    void deleteById(Long id);
+
     @Query(value = "SELECT * FROM Products WHERE cost = (SELECT MIN(cost) FROM Products)",
             nativeQuery = true)
     Page<Product> findByMinPrice(Pageable pageable);

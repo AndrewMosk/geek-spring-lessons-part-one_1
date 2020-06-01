@@ -51,4 +51,9 @@ public class ProductService {
     public Optional<Product> findById(long id) {
         return repository.findById(id);
     }
+
+    @Transactional
+    public void deleteById(long id) {
+        repository.deleteById(id);
+    }
 }
