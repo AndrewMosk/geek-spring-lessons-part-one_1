@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.geekbrains.persist.entity.Product;
 
+import javax.validation.constraints.NotBlank;
+
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -24,4 +26,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "(SELECT * FROM Products p ORDER BY p.cost ASC LIMIT 1) UNION (SELECT * FROM Products p ORDER BY p.cost DESC LIMIT 1)",
             nativeQuery = true)
     Page<Product> findByMinAndMaxPrice(Pageable pageable);
+
+    Page<Product> findByTitleContains(@NotBlank String title, Pageable pageable);
 }

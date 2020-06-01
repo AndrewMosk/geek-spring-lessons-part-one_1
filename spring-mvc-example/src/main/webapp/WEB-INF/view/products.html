@@ -26,10 +26,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Products</a>
+                <a class="nav-link" href="http://localhost:8080/mvc-app/product">Products</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
+                <a class="nav-link" href="http://localhost:8080/mvc-app/user">Users</a>
             </li>
         </ul>
 
@@ -54,6 +54,9 @@
                 <label for="maxPrice">Max price</label>
 <!--                <input type="checkbox" name="maxPrice" id="maxPrice" th:value="${maxPrice}"/>--> <!--почему-то не работает для товара-->
                 <input type="checkbox" name="maxPrice" id="maxPrice"/>
+
+                <label for="filterName">Search string</label>
+                <input type="text" name="filterName" id="filterName" th:value="${filterName}"/>
 
                 <button class="btn btn-primary" type="submit">Filter</button>
             </form>

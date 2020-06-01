@@ -35,15 +35,17 @@ public class ProductController {
     public String  productList(Model model,
                                @RequestParam(name = "minPrice",required = false, defaultValue = "false") Boolean minPrice,
                                @RequestParam(name = "maxPrice",required = false, defaultValue = "false") Boolean maxPrice,
+                               @RequestParam(name = "filterName",required = false, defaultValue = "") String filterName,
                                @RequestParam (name = "page", required = false, defaultValue = "1") Integer page,
                                @RequestParam (name = "size", required = false, defaultValue = "5") Integer size) {
         logger.info("product list");
 
-        Page<Product> productPage = productService.filterByPrice(minPrice, maxPrice, PageRequest.of(page-1, size));
+        Page<Product> productPage = productService.filterByParams(filterName, minPrice, maxPrice, PageRequest.of(page-1, size));
 
         model.addAttribute("productsPage", productPage);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("filterName", filterName);
         model.addAttribute("prevPageNumber", productPage.hasPrevious() ? productPage.previousPageable().getPageNumber() + 1 : -1);
         model.addAttribute("nextPageNumber", productPage.hasNext() ? productPage.nextPageable().getPageNumber() + 1 : -1);
         return "products";

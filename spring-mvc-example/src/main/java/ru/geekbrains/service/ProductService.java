@@ -26,7 +26,11 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public Page<Product> filterByPrice(Boolean minPrice, Boolean maxPrice, Pageable pageable) {
+    public Page<Product> filterByParams(String name, Boolean minPrice, Boolean maxPrice, Pageable pageable) {
+        if (!name.isEmpty()) {
+            return repository.findByTitleContains(name, pageable);
+        }
+
         if (minPrice & maxPrice) {
             return repository.findByMinAndMaxPrice(pageable);
         } else if (minPrice) {
