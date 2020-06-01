@@ -47,14 +47,15 @@
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" th:field="*{title}" class="form-control"  placeholder="Enter name">
+                    <small id="titleError" class="form-text text-error"
+                           th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Validation error</small>
                 </div>
-<!--                <div class="form-group">-->
-<!--                    <label for="description">Description</label>-->
-<!--                    <input type="text" id="description" th:field="*{id}" class="form-control"  placeholder="Enter description">-->
-<!--                </div>-->
+
                 <div class="form-group">
                     <label for="price">Price</label>
                     <input type="number" id="price" th:field="*{cost}" class="form-control" placeholder="Enter price">
+                    <small id="costError" class="form-text text-error"
+                           th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}">Validation error</small>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

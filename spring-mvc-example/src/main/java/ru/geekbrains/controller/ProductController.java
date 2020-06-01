@@ -7,12 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.geekbrains.persist.entity.Product;
 import ru.geekbrains.service.ProductService;
+
+import javax.validation.Valid;
+import java.math.BigDecimal;
 
 @RequestMapping("/product")
 @Controller
@@ -53,8 +57,23 @@ public class ProductController {
     }
 
     @PostMapping
-    public String  saveProduct(Product product) {
+    public String  saveProduct(@Valid Product product, BindingResult bindingResult) {
         logger.info("save list");
+
+        if (bindingResult.hasErrors()) {
+            return "product";
+        }
+
+        if (product.getCost() == null) {
+            bindingResult.rejectValue("cost", "", "Цена не должна быть пустой");
+            return "product";
+        }
+
+        if (product.getCost().equals(BigDecimal.ZERO)) {
+            bindingResult.rejectValue("cost", "", "Цена не должна быть 0");
+            return "product";
+        }
+
         productService.save(product);
         return "redirect:/product";
     }
