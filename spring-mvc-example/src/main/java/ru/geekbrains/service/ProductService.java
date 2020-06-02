@@ -31,7 +31,7 @@ public class ProductService {
             return repository.findByTitleContains(name, pageable);
         }
 
-        if (minPrice & maxPrice) {
+        if (minPrice && maxPrice) {
             return repository.findByMinAndMaxPrice(pageable);
         } else if (minPrice) {
             return repository.findByMinPrice(pageable);
