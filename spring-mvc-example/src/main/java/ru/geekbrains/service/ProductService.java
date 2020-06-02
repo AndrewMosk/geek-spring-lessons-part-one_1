@@ -1,6 +1,8 @@
 package ru.geekbrains.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.persist.entity.Product;
@@ -24,16 +26,20 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public List<Product> filterByPrice(Boolean minPrice, Boolean maxPrice) {
-        if (minPrice & maxPrice) {
-            return repository.findByMinAndMaxPrice();
-        } else if (minPrice) {
-            return repository.findByMinPrice();
-        } else if (maxPrice) {
-            return repository.findByMaxPrice();
+    public Page<Product> filterByParams(String name, Boolean minPrice, Boolean maxPrice, Pageable pageable) {
+        if (!name.isEmpty()) {
+            return repository.findByTitleContains(name, pageable);
         }
 
-        return repository.findAll();
+        if (minPrice & maxPrice) {
+            return repository.findByMinAndMaxPrice(pageable);
+        } else if (minPrice) {
+            return repository.findByMinPrice(pageable);
+        } else if (maxPrice) {
+            return repository.findByMaxPrice(pageable);
+        }
+
+        return repository.findAll(pageable);
     }
 
     @Transactional
@@ -44,5 +50,10 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Optional<Product> findById(long id) {
         return repository.findById(id);
+    }
+
+    @Transactional
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 }

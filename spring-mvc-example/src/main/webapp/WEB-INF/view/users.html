@@ -26,10 +26,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Products</a>
+                <a class="nav-link" href="http://localhost:8080/mvc-app/product">Products</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Users</a>
+                <a class="nav-link" href="http://localhost:8080/mvc-app/user">Users</a>
             </li>
         </ul>
 
@@ -47,10 +47,13 @@
         <div class="col-12 mt-3">
             <form>
                 <label for="minAge">Min age</label>
-                <input type="number" name="minAge" id="minAge">
+                <input type="number" name="minAge" id="minAge" th:value="${minAge}"/>
 
                 <label for="maxAge">Max age</label>
-                <input type="number" name="maxAge" id="maxAge">
+                <input type="number" name="maxAge" id="maxAge" th:value="${maxAge}"/>
+
+                <label for="username">User name</label>
+                <input type="text" name="username" id="username" th:value="${username}"/>
 
                 <button class="btn btn-primary" type="submit">Filter</button>
             </form>
@@ -62,17 +65,19 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Email</th>
                     <th scope="col">Age</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr hidden>
+                <tr th:unless="${usersPage.hasContent()}">
                     <td class="text-center" colspan="5">No data</td>
                 </tr>
-                <tr  th:each="user : ${users}">
+                <tr th:if="${usersPage.hasContent()}"  th:each="user : ${usersPage.content}">
                     <th scope="row" th:text = "${user.id}">1</th>
                     <td th:text = "${user.name}">Alex</td>
+                    <td th:text = "${user.email}">email@mail.com</td>
                     <td th:text = "${user.age}">18</td>
                     <td>
                         <a class="btn btn-success" href="#"><i class="fas fa-edit"></i></a>
@@ -82,6 +87,35 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="col-12" th:if="${usersPage.hasContent()}">
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item"
+                    th:classappend="${!usersPage.hasPrevious()} ? 'disabled'">
+
+                    <a class="page-link"
+                       th:href="@{/user(page=${prevPageNumber}, size=${usersPage.size}, minAge=${param.minAge}, maxAge=${param.maxAge}, username=${param.username})}" tabindex="-1">Previous</a>
+                </li>
+
+                <li th:each="num: ${#numbers.sequence(1, usersPage.totalPages)}"
+                    th:classappend="${num == usersPage.number + 1} ? 'active'"
+                    class="page-item">
+
+                    <a class="page-link"
+                       th:text="${num}"
+                       th:href="@{/user(page=${num}, size=${usersPage.size}, minAge=${minAge}, maxAge=${maxAge}, username=${username})}">1</a>
+                </li>
+
+                <li class="page-item"
+                    th:classappend="${!usersPage.hasNext()} ? 'disabled'">
+
+                    <a class="page-link"
+                       th:href="@{/user(page=${nextPageNumber}, size=${usersPage.size}, minAge=${param.minAge}, maxAge=${param.maxAge}, username=${param.username})}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 
