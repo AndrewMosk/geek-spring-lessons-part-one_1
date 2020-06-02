@@ -32,18 +32,20 @@ public class UserController {
 
     @GetMapping
     public String userList(Model model,
-                           @RequestParam(name = "minAge", required = false, defaultValue = "0") Integer minAge,
-                           @RequestParam(name = "maxAge", required = false, defaultValue = "0") Integer maxAge,
+                           @RequestParam(name = "minAge", required = false) Integer minAge,
+                           @RequestParam(name = "maxAge", required = false) Integer maxAge,
+                           @RequestParam(name = "username", required = false) String username,
                            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page, // еще однин вариант использования параметра без опции required = false
                            @RequestParam(name = "size", required = false, defaultValue = "5") Integer size) {
 
         logger.info("User list. With minAge = {} and maxAge = {}", minAge, maxAge);
 
-        Page<User> userPage = userService.filterByAge(minAge, maxAge, PageRequest.of(page - 1, size)); // page.orElse(1)-1 почему-то -1!?
+        Page<User> userPage = userService.filterByAge(minAge, maxAge, username, PageRequest.of(page - 1, size)); // page.orElse(1)-1 почему-то -1!?
 
         model.addAttribute("usersPage", userPage);
         model.addAttribute("minAge", minAge);
         model.addAttribute("maxAge", maxAge);
+        model.addAttribute("username", username);
         model.addAttribute("prevPageNumber", userPage.hasPrevious() ? userPage.previousPageable().getPageNumber() + 1 : -1);
         model.addAttribute("nextPageNumber", userPage.hasNext() ? userPage.nextPageable().getPageNumber() + 1 : -1);
 

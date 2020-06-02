@@ -52,6 +52,9 @@
                 <label for="maxAge">Max age</label>
                 <input type="number" name="maxAge" id="maxAge" th:value="${maxAge}"/>
 
+                <label for="username">User name</label>
+                <input type="text" name="username" id="username" th:value="${username}"/>
+
                 <button class="btn btn-primary" type="submit">Filter</button>
             </form>
         </div>
@@ -93,7 +96,7 @@
                     th:classappend="${!usersPage.hasPrevious()} ? 'disabled'">
 
                     <a class="page-link"
-                       th:href="@{/user(page=${prevPageNumber}, size=${usersPage.size}, minAge=${param.minAge}, maxAge=${param.maxAge})}" tabindex="-1">Previous</a>
+                       th:href="@{/user(page=${prevPageNumber}, size=${usersPage.size}, minAge=${param.minAge}, maxAge=${param.maxAge}, username=${param.username})}" tabindex="-1">Previous</a>
                 </li>
 
                 <li th:each="num: ${#numbers.sequence(1, usersPage.totalPages)}"
@@ -102,14 +105,14 @@
 
                     <a class="page-link"
                        th:text="${num}"
-                       th:href="@{/user(page=${num}, size=${usersPage.size}, minAge=${minAge}, maxAge=${maxAge})}">1</a>
+                       th:href="@{/user(page=${num}, size=${usersPage.size}, minAge=${minAge}, maxAge=${maxAge}, username=${username})}">1</a>
                 </li>
 
                 <li class="page-item"
                     th:classappend="${!usersPage.hasNext()} ? 'disabled'">
 
                     <a class="page-link"
-                       th:href="@{/user(page=${nextPageNumber}, size=${usersPage.size}, minAge=${param.minAge}, maxAge=${param.maxAge})}">Next</a>
+                       th:href="@{/user(page=${nextPageNumber}, size=${usersPage.size}, minAge=${param.minAge}, maxAge=${param.maxAge}, username=${param.username})}">Next</a>
                 </li>
             </ul>
         </nav>
