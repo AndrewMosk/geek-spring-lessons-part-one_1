@@ -51,7 +51,7 @@ public class UserService {
             specification = specification.and(UserSpecification.ageLessThanOrEqual(maxAge));
         }
 
-        if (name != null) {
+        if (name != null && !name.isEmpty()) {
             specification = specification.and(UserSpecification.findUserByName(name));
         }
 
