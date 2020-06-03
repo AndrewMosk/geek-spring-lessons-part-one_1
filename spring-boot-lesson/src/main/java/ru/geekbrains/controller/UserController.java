@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @GetMapping("edit")
-    public String editUser(@RequestParam(name = "id", required = false) Long id, Model model) {
+    public String editUser(@RequestParam("id") Long id, Model model) {
         logger.info("Edit user with id " + id);
 
         model.addAttribute("user", userService.findById(id));

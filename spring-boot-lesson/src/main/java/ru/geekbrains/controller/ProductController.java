@@ -55,21 +55,35 @@ public class ProductController {
         return "product";
     }
 
-    @GetMapping("edit/{id}")
-    public String editProduct(@PathVariable("id") Integer productId, Model model) {
-        logger.info("edit item");
-        model.addAttribute("product", productService.findById(productId));
+//    @GetMapping("edit/{id}")
+//    public String editProduct(@PathVariable("id") Integer productId, Model model) {
+//        logger.info("edit item");
+//        model.addAttribute("product", productService.findById(productId));
+//
+//        return "product";
+//    }
+        @GetMapping("edit")
+        public String editProduct(@RequestParam("id") Long id, Model model) {
+            logger.info("Edit user with id " + id);
 
-        return "product";
-    }
+            model.addAttribute("product", productService.findById(id));
+            return "product";
+        }
 
-    @GetMapping("delete/{id}")
-    public String deleteProduct(@PathVariable("id") Integer productId, Model model) {
-        logger.info("delete item");
-        productService.deleteById(productId);
+//    @GetMapping("delete/{id}")
+//    public String deleteProduct(@PathVariable("id") Integer productId, Model model) {
+//        logger.info("delete item");
+//        productService.deleteById(productId);
+//
+//        return "redirect:/product";
+//    }
+        @DeleteMapping
+        public String deleteProduct(@RequestParam("id") Long id) {
+            logger.info("Delete user with id " + id);
 
-        return "redirect:/product";
-    }
+            productService.deleteById(id);
+            return "redirect:/product";
+        }
 
     @PostMapping
     public String  saveProduct(@Valid Product product, BindingResult bindingResult) {
