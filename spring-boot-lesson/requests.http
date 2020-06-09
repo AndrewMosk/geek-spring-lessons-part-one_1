@@ -1,0 +1,17 @@
+GET http://localhost:8080/mvc-app/api/v1/user/all
+
+###
+
+POST http://localhost:8080/mvc-app/api/v1/user
+Content-Type: application/json
+
+  {
+    "name": "Bill777",
+    "password": "123777",
+    "email": "777@mail.ru",
+    "age": 77
+  }
+
+###
+
+DELETE http://localhost:8080/mvc-app/api/v1/user/9/id
