@@ -9,6 +9,7 @@ import ru.geekbrains.service.UserService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:63342")
 @RequestMapping("/api/v1/user")
 @RestController
 public class UserResource {
