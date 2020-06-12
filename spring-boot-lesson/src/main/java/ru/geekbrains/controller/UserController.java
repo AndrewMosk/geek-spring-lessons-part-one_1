@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.persist.entity.User;
+import ru.geekbrains.persist.repo.RoleRepository;
+import ru.geekbrains.rest.NotFoundException;
 import ru.geekbrains.service.UserService;
 
 import javax.validation.Valid;
@@ -20,11 +22,13 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    private UserService userService;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping
@@ -54,6 +58,7 @@ public class UserController {
         logger.info("Create user form");
 
         model.addAttribute("user", new User());
+        model.addAttribute("roles", roleRepository.findAll());
         return "user";
     }
 
@@ -61,7 +66,9 @@ public class UserController {
     public String editUser(@RequestParam("id") Long id, Model model) {
         logger.info("Edit user with id " + id);
 
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findById(id)
+                .orElseThrow(NotFoundException::new));
+        model.addAttribute("roles", roleRepository.findAll());
         return "user";
     }
 

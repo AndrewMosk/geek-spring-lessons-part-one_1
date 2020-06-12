@@ -21,7 +21,7 @@ public class User {
     private String name;
 
     @NotBlank
-    @Column(length = 32)
+    @Column(length = 128)
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
