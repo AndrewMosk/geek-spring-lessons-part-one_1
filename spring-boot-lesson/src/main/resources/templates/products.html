@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- Required meta tags -->
@@ -33,8 +35,10 @@
             </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0" action="#" method="post">
-            <button class="btn btn-outline-success my-2 my-sm-0">Logout</button>
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0">
+                Logout <span sec:authentication="principal.username"></span>
+            </button>
         </form>
     </div>
 </nav>
@@ -69,7 +73,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Title</th>
                     <th scope="col">Cost</th>
-                    <th scope="col">Actions</th>
+                    <th sec:authorize="hasAnyRole('SUPERADMIN', 'ADMIN', 'MANAGER')" scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -80,7 +84,7 @@
                     <th scope="row" th:text = "${product.id}">1</th>
                     <td th:text="${product.title}">Macbook pro 2015</td>
                     <td th:text="${product.cost}">$2000</td>
-                    <td>
+                    <td sec:authorize="hasAnyRole('SUPERADMIN', 'ADMIN', 'MANAGER')">
                         <a class="btn btn-success" th:href="@{/product/edit(id=${product.id})}"><i class="fas fa-edit"></i></a>
                         <form th:action="@{/product(id=${product.id})}" th:method="delete">
                             <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>

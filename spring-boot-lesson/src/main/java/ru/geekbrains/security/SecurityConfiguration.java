@@ -72,8 +72,8 @@ public class SecurityConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-//                    .antMatchers("/product/**").hasRole("USER")
-                    .antMatchers("/user/**").hasRole("ADMIN")
+                    .antMatchers("/product/**").hasAnyRole("SUPERADMIN","ADMIN","MANAGER", "GUEST")
+                    .antMatchers("/user/**").hasAnyRole("SUPERADMIN", "ADMIN")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin();
