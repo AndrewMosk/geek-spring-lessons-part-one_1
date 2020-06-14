@@ -32,10 +32,10 @@ public class SecurityConfiguration {
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         auth.authenticationProvider(provider);
-        auth.inMemoryAuthentication()
-                .withUser("mem_user")
-                .password(passwordEncoder.encode("password"))
-                .roles("ADMIN");
+//        auth.inMemoryAuthentication()
+//                .withUser("mem_user")
+//                .password(passwordEncoder.encode("password"))
+//                .roles("ADMIN");
     }
 
     @Configuration
@@ -76,7 +76,7 @@ public class SecurityConfiguration {
                     .antMatchers("/user/**").hasAnyRole("SUPERADMIN", "ADMIN")
                     .anyRequest().authenticated()
                     .and()
-                    .formLogin();
+                    .formLogin().loginPage("/login").permitAll();
         }
     }
 }
