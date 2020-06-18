@@ -1,5 +1,8 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 
 <head>
     <!-- Required meta tags -->
@@ -33,8 +36,10 @@
             </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0" action="#" method="post">
-            <button class="btn btn-outline-success my-2 my-sm-0">Logout</button>
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0">
+                Logout <span sec:authentication="principal.username"></span>
+            </button>
         </form>
     </div>
 </nav>
@@ -67,7 +72,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Age</th>
-                    <th scope="col">Actions</th>
+                    <th sec:authorize="hasAnyRole('SUPERADMIN')" scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -79,7 +84,7 @@
                     <td th:text = "${user.name}">Alex</td>
                     <td th:text = "${user.email}">email@mail.com</td>
                     <td th:text = "${user.age}">18</td>
-                    <td>
+                    <td sec:authorize="hasAnyRole('SUPERADMIN')">
                         <a class="btn btn-success" th:href="@{/user/edit(id=${user.id})}"><i class="fas fa-edit"></i></a>
                         <form th:action="@{/user(id=${user.id})}" th:method="delete">
                             <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>

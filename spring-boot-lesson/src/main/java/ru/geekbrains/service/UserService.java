@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.persist.entity.User;
@@ -17,28 +18,18 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
     public List<User> findAll() {
         return repository.findAll();
     }
-
-//    public Page<User> filterByAge(Integer minAge, Integer maxAge, Pageable pageable) {
-//        if (minAge != 0 & maxAge == 0) {
-//            return repository.findByAgeGreaterThanEqual(minAge, pageable);
-//        } else if (minAge == 0 & maxAge != 0) {
-//            return repository.findByAgeLessThanEqual(maxAge, pageable);
-//        } else if (minAge != 0 & maxAge != 0) {
-//            return repository.findByAgeBetween(minAge, maxAge, pageable);
-//        }
-//
-//        return repository.findAll(pageable);
-//    }
 
     public Page<User> filterByAge(Integer minAge, Integer maxAge, String name, Pageable pageable) {
         Specification<User> specification = UserSpecification.trueLiteral();
@@ -60,6 +51,7 @@ public class UserService {
 
     @Transactional
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
     }
 
